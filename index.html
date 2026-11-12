@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>X-Ray Mirror</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="start-screen">
+  <div class="start-card">
+    <h1>X-Ray Mirror</h1>
+    <p class="subtitle">An anatomy mirror for your face and hands.</p>
+    <p class="note">
+      🔒 Your video is processed entirely on your device and is never uploaded or recorded.
+    </p>
+    <p class="disclaimer">
+      This shows where anatomical structures <em>typically</em> sit, based on one adult reference
+      dataset (BodyParts3D). It is not a scan of you, and it is not a medical device.
+      It's an art &amp; education toy.
+    </p>
+    <button id="start-btn">Start camera</button>
+    <p id="start-error" class="start-error" hidden></p>
+  </div>
+</div>
+
+<div id="app" hidden>
+  <video id="webcam" autoplay playsinline muted></video>
+  <canvas id="scene"></canvas>
+
+  <button id="toggle-ui" title="Hide/show UI (H)">☰</button>
+
+  <div id="panel" class="panel">
+    <div class="panel-header">
+      <span>X-Ray Mirror</span>
+      <button id="panel-collapse" title="Collapse panel">—</button>
+    </div>
+
+    <div class="panel-body">
+      <section>
+        <h2>Layers</h2>
+        <label><input type="checkbox" data-layer="skull" checked /> Skull <kbd>1</kbd></label>
+        <label><input type="checkbox" data-layer="brain" checked /> Brain <kbd>2</kbd></label>
+        <label><input type="checkbox" data-layer="muscles" checked /> Head muscles <kbd>3</kbd></label>
+        <label><input type="checkbox" data-layer="eyes" checked /> Eyes <kbd>4</kbd></label>
+        <label><input type="checkbox" data-layer="outline" /> Head outline <kbd>5</kbd></label>
+        <label><input type="checkbox" data-layer="hands" checked /> Hand bones <kbd>6</kbd></label>
+      </section>
+
+      <section>
+        <h2>Look</h2>
+        <div class="btn-row">
+          <button class="look-btn active" data-look="xray">X-ray <kbd>X</kbd></button>
+          <button class="look-btn" data-look="solid">Solid</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Camera blend</h2>
+        <input id="blend-slider" type="range" min="0" max="100" value="70" />
+      </section>
+
+      <section>
+        <h2>X-ray lens</h2>
+        <label><input type="checkbox" id="lens-toggle" /> Follow index fingertip <kbd>L</kbd></label>
+        <label class="sub">Radius
+          <input id="lens-radius" type="range" min="40" max="320" value="150" />
+        </label>
+      </section>
+
+      <section>
+        <h2>Cutaway</h2>
+        <select id="cutaway-select">
+          <option value="full">Full</option>
+          <option value="left">Left half</option>
+          <option value="right">Right half</option>
+          <option value="front">Front cut</option>
+          <option value="top">Top cut</option>
+        </select>
+      </section>
+
+      <section>
+        <h2>Calibration <kbd>C</kbd></h2>
+        <div id="calibration-panel" hidden>
+          <label class="sub">Scale <input id="cal-scale" type="range" min="50" max="200" value="100" /></label>
+          <label class="sub">Offset X <input id="cal-x" type="range" min="-20" max="20" value="0" /></label>
+          <label class="sub">Offset Y <input id="cal-y" type="range" min="-20" max="20" value="0" /></label>
+          <label class="sub">Offset Z <input id="cal-z" type="range" min="-20" max="20" value="0" /></label>
+          <label class="sub">Pitch <input id="cal-pitch" type="range" min="-30" max="30" value="0" /></label>
+          <button id="cal-reset">Reset</button>
+        </div>
+      </section>
+
+      <p class="credits">
+        Anatomy models: BodyParts3D, © The Database Center for Life Science,
+        CC BY-SA 2.1 Japan (simplified and re-aligned).
+      </p>
+      <p class="shortcuts-hint">Shortcuts: 1–6 layers · X look · L lens · C calibration · H hide UI</p>
+    </div>
+  </div>
+
+  <div id="face-lost" class="face-lost" hidden>No face detected</div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/",
+    "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs"
+  }
+}
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
