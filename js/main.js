@@ -28,6 +28,12 @@ async function start() {
   startBtn.disabled = true;
   startError.hidden = true;
   try {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw new Error(
+        "Camera access isn't available in this browser context (common in embedded " +
+          "previews/iframes). Open this page directly in a full browser tab and try again."
+      );
+    }
     const stream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 720 } },
       audio: false,
